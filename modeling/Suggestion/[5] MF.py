@@ -64,7 +64,7 @@ class MaxFactorization:
         
         L /= self.n_ratings
 
-        L += 0.5*self.lam*(np.linalg.norm(self.X, 'fro')) + np.linalg.norm(self.W, 'fro')
+        L += 0.5*self.lam*(np.linalg.norm(self.X, 'fro') + np.linalg.norm(self.W, 'fro'))
         return L
 
 
@@ -170,67 +170,114 @@ class Metrics():
         error = np.abs(y_true - y_pred)
         bina = 0
         for err in error:
-            if (err < eps):
+            if (err <= eps):
                 bina += 1
         return bina/len(y_true)
 
-mae = 0
-mse = 0
-rmse = 0
-sia_1 = 0
-sia_0_5 = 0
-sia_0_25 = 0
+avg_mae_test = 0
+avg_mse_test = 0
+avg_rmse_test = 0
+avg_sia_1_test = 0
+avg_sia_0_5_test = 0
+avg_sia_0_25_test = 0
 
-if not os.path.exists('../../result'):
-    os.makedirs('../../result')
-if not os.path.exists('../../result/MF'):
-    os.makedirs('../../result/MF')
+avg_mae_train = 0
+avg_mse_train = 0
+avg_rmse_train = 0
+avg_sia_1_train = 0
+avg_sia_0_5_train = 0
+avg_sia_0_25_train = 0
 
-# for i in range(1, 6):
-#     train_path = f'../../data/datasets/rating/kfold/u{i}.base.csv'
-#     test_path = f'../../data/datasets/rating/kfold/u{i}.test.csv'
-#     rate_train = pd.read_csv(train_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
-#     rate_test = pd.read_csv(test_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
+# if not os.path.exists('../../result'):
+#     os.makedirs('../../result')
+# if not os.path.exists('../../result/MF'):
+#     os.makedirs('../../result/MF')
+
+for i in range(1, 6):
+    train_path = f'../../data/datasets/rating/kfold/u{i}.base.csv'
+    test_path = f'../../data/datasets/rating/kfold/u{i}.test.csv'
+    rate_train = pd.read_csv(train_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
+    rate_test = pd.read_csv(test_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
  
-#     rs = MaxFactorization(rate_train, K = 10, lam=0.1, print_every=10, learning_rate=0.75, max_iter=100, user_based=1)
-#     rs.fit()
-#     Y_predict, Y_true = rs.pred_all(rate_test)
-#     Y_predict = np.array(Y_predict)
-#     Y_true = np.array(Y_true)
+    rs = MaxFactorization(rate_train, K = 10, lam=0.5, print_every=10, learning_rate=0.75, max_iter=100, user_based=1)
+    rs.fit()
+    Y_predict_test, Y_true_test = rs.pred_all(rate_test)
+    Y_predict_test = np.array(Y_predict_test)
+    Y_true_test = np.array(Y_true_test)
 
-#     #Compute RMSE metrics
-#     RMSE = rs.evaluate_RMSE(rate_test)
-#     rmse += RMSE
+    Y_predict_train, Y_true_train = rs.pred_all(rate_train)
+    Y_predict_train = np.array(Y_predict_train)
+    Y_true_train = np.array(Y_true_train)
 
-#     #Compute MAE metrics
-#     mae_test = Metrics.computeMAE(Y_true, Y_predict)
-#     mae += mae_test
+    #Compute RMSE metrics
+    RMSE = rs.evaluate_RMSE(rate_test)
+    avg_rmse_test += RMSE
 
-#     #Compute MSE metrics
-#     mse_test = Metrics.computeMSE(Y_true, Y_predict)
-#     mse += mse_test
+    #Compute MAE metrics
+    mae_test = Metrics.computeMAE(Y_true_test, Y_predict_test)
+    avg_mae_test += mae_test
 
-#     #Compute SIA metrics
-#     sia_test_1 = Metrics.computeSIA(Y_true, Y_predict, 1)
-#     sia_1 += sia_test_1
+    #Compute MSE metrics
+    mse_test = Metrics.computeMSE(Y_true_test, Y_predict_test)
+    avg_mse_test += mse_test
 
-#     sia_test_0_5 = Metrics.computeSIA(Y_true, Y_predict, 0.5)
-#     sia_0_5 += sia_test_0_5
+    #Compute SIA metrics
+    sia_test_1 = Metrics.computeSIA(Y_true_test, Y_predict_test, 1)
+    avg_sia_1_test += sia_test_1
 
-#     sia_test_0_25 = Metrics.computeSIA(Y_true, Y_predict, 0.25)
-#     sia_0_25 += sia_test_0_25
+    sia_test_0_5 = Metrics.computeSIA(Y_true_test, Y_predict_test, 0.5)
+    avg_sia_0_5_test += sia_test_0_5
+
+    sia_test_0_25 = Metrics.computeSIA(Y_true_test, Y_predict_test, 0.25)
+    avg_sia_0_25_test += sia_test_0_25
 
 
-#     with open(f'../../result/MF_fold_{i}.txt', "w+") as f:
-#         for i in range(len(Y_predict)):
-#             txt = str(Y_predict[i] ) + " " + str(Y_true[i]) + '\n'
-#             f.write(txt)
-#         f.write(f'RMSE: {RMSE}\n')
-#         f.write(f'MAE: {mae_test}\n')
-#         f.write(f'mse_test: {mse_test}\n')
-#         f.write(f'SIA 1: {sia_test_1}\n')
-#         f.write(f'SIA 0.5: {sia_test_0_5}\n')
-#         f.write(f'SIA 0.25: {sia_test_0_25}\n')
+    #Compute RMSE metrics
+    RMSE = rs.evaluate_RMSE(rate_train)
+    avg_rmse_train += RMSE
+
+    #Compute MAE metrics
+    mae_train = Metrics.computeMAE(Y_true_train, Y_predict_train)
+    avg_mae_train += mae_train
+
+    #Compute MSE metrics
+    mse_train = Metrics.computeMSE(Y_true_train, Y_predict_train)
+    avg_mse_train += mse_train
+
+    #Compute SIA metrics
+    sia_train_1 = Metrics.computeSIA(Y_true_train, Y_predict_train, 1)
+    avg_sia_1_train += sia_train_1
+
+    sia_train_0_5 = Metrics.computeSIA(Y_true_train, Y_predict_train, 0.5)
+    avg_sia_0_5_train += sia_train_0_5
+
+    sia_train_0_25 = Metrics.computeSIA(Y_true_train, Y_predict_train, 0.25)
+    avg_sia_0_25_train += sia_train_0_25
+
+
+    # with open(f'../../result/MF_fold_{i}.txt', "w+") as f:
+    #     for i in range(len(Y_predict)):
+    #         txt = str(Y_predict[i] ) + " " + str(Y_true[i]) + '\n'
+    #         f.write(txt)
+    #     f.write(f'RMSE: {RMSE}\n')
+    #     f.write(f'MAE: {mae_test}\n')
+    #     f.write(f'mse_test: {mse_test}\n')
+    #     f.write(f'SIA 1: {sia_test_1}\n')
+    #     f.write(f'SIA 0.5: {sia_test_0_5}\n')
+    #     f.write(f'SIA 0.25: {sia_test_0_25}\n')
+
+
+print("mae_train:", avg_mae_train / 5)
+print("mse_train:", avg_mse_train / 5)
+print("sia_1_train:", avg_sia_1_train / 5)
+print("sia_0_5_train:", avg_sia_0_5_train / 5)
+print("sia_0_25_train:", avg_sia_0_25_train / 5)
+
+print("mae_test:", avg_mae_test / 5)
+print("mse_test:", avg_mse_test / 5)
+print("sia_1_test:", avg_sia_1_test / 5)
+print("sia_0_5_test:", avg_sia_0_5_test / 5)
+print("sia_0_25_test:", avg_sia_0_25_test / 5)
 
 
 

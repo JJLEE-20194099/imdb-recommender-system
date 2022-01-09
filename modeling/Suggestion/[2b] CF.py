@@ -179,64 +179,101 @@ class Metrics():
         res = np.mean(bina)
         return res
 
-# mae = 0
-# mse = 0
-# sia_1 = 0
-# sia_0_5 = 0
-# sia_0_25 = 0
-# for i in range(1, 6):
+avg_mae_test = 0
+avg_mse_test = 0
+avg_sia_1_test = 0
+avg_sia_0_5_test = 0
+avg_sia_0_25_test = 0
 
-train_path = f'../../data/datasets/rating/kfold/u5.base.csv'
-test_path = f'../../data/datasets/rating/kfold/u5.test.csv'
-rating_train = pd.read_csv(train_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
-rating_test = pd.read_csv(test_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
-res = 0    
+avg_mae_train = 0
+avg_mse_train = 0
+avg_sia_1_train = 0
+avg_sia_0_5_train = 0
+avg_sia_0_25_train = 0
+for i in range(1, 6):
+    train_path = f'../../data/datasets/rating/kfold/u{i}.base.csv'
+    test_path = f'../../data/datasets/rating/kfold/u{i}.test.csv'
+    rating_train = pd.read_csv(train_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
+    rating_test = pd.read_csv(test_path, sep=',', encoding='latin-1')[['user index', 'movie index', 'rating']].drop_duplicates(subset=['user index', 'movie index'], keep='first').values
+    res = 0    
 
-CF_model = collaborative_filering(rating_train, k_neighbors=50, mode=1)
-CF_model.fit()
-no_tests = rating_test.shape[0]
-Y_predict = []
-for i in range(no_tests):
-    predict = CF_model.predict(rating_test[i, 0], rating_test[i, 1])
-    if (predict < 1):
-        predict = 1
-    if (predict > 5):
-        predict = 5
+    CF_model = collaborative_filering(rating_train, k_neighbors=50, mode=1)
+    CF_model.fit()
+    no_tests = rating_test.shape[0]
+    Y_predict_test = []
+    for i in range(no_tests):
+        predict = CF_model.predict(rating_test[i, 0], rating_test[i, 1])
+        if (predict < 1):
+            predict = 1
+        if (predict > 5):
+            predict = 5
 
-    Y_predict.append(predict)
-X = [i for i in range(no_tests)]
-Y_true = rating_test[:, 2]
+        Y_predict_test.append(predict)
+    X = [i for i in range(no_tests)]
+    Y_true = rating_test[:, 2]
 
-print(Metrics.computeMSE(Y_true, Y_predict))
-print(Metrics.computeSIA(Y_true, Y_predict))
-print(Metrics.computeMAE(Y_true, Y_predict))
 
-sns.distplot(Y_true)
-sns.distplot(Y_predict)
+    #Compute MAE metrics
+    mae_test = Metrics.computeMAE(Y_true, Y_predict_test)
+    avg_mae_test += mae_test
 
-    # #Compute MAE metrics
-    # mae_test = Metrics.computeMAE(Y_true, Y_predict)
-    # mae += mae_test
+    #Compute MSE metrics
+    mse_test = Metrics.computeMSE(Y_true, Y_predict_test)
+    avg_mse_test += mse_test
 
-    # #Compute MSE metrics
-    # mse_test = Metrics.computeMSE(Y_true, Y_predict)
-    # mse += mse_test
+    #Compute SIA metrics
+    sia_test_1 = Metrics.computeSIA(Y_true, Y_predict_test, 1)
+    avg_sia_1_test += sia_test_1
 
-    # #Compute SIA metrics
-    # sia_test_1 = Metrics.computeSIA(Y_true, Y_predict, 1)
-    # sia_1 += sia_test_1
+    sia_test_0_5 = Metrics.computeSIA(Y_true, Y_predict_test, 0.5)
+    avg_sia_0_5_test += sia_test_0_5
 
-    # sia_test_0_5 = Metrics.computeSIA(Y_true, Y_predict, 0.5)
-    # sia_0_5 += sia_test_0_5
+    sia_test_0_25 = Metrics.computeSIA(Y_true, Y_predict_test, 0.25)
+    avg_sia_0_25_test += sia_test_0_25
 
-    # sia_test_0_25 = Metrics.computeSIA(Y_true, Y_predict, 0.25)
-    # sia_0_25 += sia_test_0_25
+    no_trains = rating_train.shape[0]
+    Y_predict_train = []
+    for i in range(no_trains):
+        predict = CF_model.predict(rating_train[i, 0], rating_train[i, 1])
+        if (predict < 1):
+            predict = 1
+        if (predict > 5):
+            predict = 5
 
-# print(mae / 5)
-# print(mse / 5)
-# print(sia_1 / 5)
-# print(sia_0_5 / 5)
-# print(sia_0_25 / 5)
+        Y_predict_train.append(predict)
+    X = [i for i in range(no_trains)]
+    Y_true = rating_train[:, 2]
+
+
+    #Compute MAE metrics
+    mae_train = Metrics.computeMAE(Y_true, Y_predict_train)
+    avg_mae_train += mae_train
+
+    #Compute MSE metrics
+    mse_train = Metrics.computeMSE(Y_true, Y_predict_train)
+    avg_mse_train += mse_train
+
+    #Compute SIA metrics
+    sia_train_1 = Metrics.computeSIA(Y_true, Y_predict_train, 1)
+    avg_sia_1_train += sia_train_1
+
+    sia_train_0_5 = Metrics.computeSIA(Y_true, Y_predict_train, 0.5)
+    avg_sia_0_5_train += sia_train_0_5
+
+    sia_train_0_25 = Metrics.computeSIA(Y_true, Y_predict_train, 0.25)
+    avg_sia_0_25_train += sia_train_0_25
+
+print("mae_train:", avg_mae_train / 5)
+print("mse_train:", avg_mse_train / 5)
+print("sia_1_train:", avg_sia_1_train / 5)
+print("sia_0_5_train:", avg_sia_0_5_train / 5)
+print("sia_0_25_train:", avg_sia_0_25_train / 5)
+
+print("mae_test:", avg_mae_test / 5)
+print("mse_test:", avg_mse_test / 5)
+print("sia_1_test:", avg_sia_1_test / 5)
+print("sia_0_5_test:", avg_sia_0_5_test / 5)
+print("sia_0_25_test:", avg_sia_0_25_test / 5)
 
 # CF_model.print()
 
