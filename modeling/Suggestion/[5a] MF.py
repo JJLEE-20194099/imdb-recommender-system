@@ -158,7 +158,6 @@ class MaxFactorization:
             test.append(rate_test[n, 2])
         return [res, test]
 
-
 class Metrics():
     def computeMSE(y_true, y_pred):
         return np.mean((y_true-y_pred)**2)
