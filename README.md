@@ -1,5 +1,9 @@
 # Học máy và khai phá dữ liệu
 
+***Chú ý:*** Do có viết 1 số công thức nên nhóm tôi khuyên bạn nên dùng file sau để xem đầy đủ chính xác và chi tiết hơn:
+https://hackmd.io/1GFmNyJIT4C4ecAF6Czgcw?both
+
+
 - [Học máy và khai phá dữ liệu](#)
   * [Thành viên của nhóm](#)
   * [Phân công công việc](#)
@@ -9,46 +13,46 @@
 - [Làm sạch và tiền xử lý dữ liệu](#)
 - [IMDB datasets](#)
 - [Khám phá dữ liệu](#)
-- [Một số khái niệm và độ đo cần thiết cho bài toán](#kha-m-pha--d---li--u)
-- [Mô hình](#m--hi-nh-ho-a-d---li--u)
+- [Một số khái niệm và độ đo cần thiết cho bài toán](#)
+- [Mô hình](#)
  
-  * [Lọc cộng tác collaborative filtering](#review-rating-prediction-and-suggest-other-items-to-users)
-      + [Similarity function](#d----oa-n-s---du-ng----c-tr-ng-tf-idf)
+  * [Lọc cộng tác collaborative filtering](#)
+      + [Similarity function](#)
           + [Chuẩn hóa dữ liệu](#)
           + [Hàm cosin tính độ tương đồng](#)
-    + [Mô hình](#d----oa-n-s---du-ng----c-tr-ng-tri-ch-xu--t-t---m--hi-nh-bert)
-        + [User-Item](#user)
-        + [Item-user](#item)
-    + [Đánh giá mô hình](#tu-xay-dung-mo-hinh-tiki)
-      + [MSE](#tien-xu-li)
-      + [MAE](#ap-dung-mang-neural-network-bai-toan-goi-y)
+    + [Mô hình](#)
+        + [User-Item](#)
+        + [Item-user](#)
+    + [Đánh giá mô hình](#)
+      + [MSE](#)
+      + [MAE](#)
       + [SIA 1](#)
       + [SIA 0.5](#)
       + [SIA 0.25](#)
      
-   * [Phân rã ma trận matrix factorization](#review-rating-prediction-and-suggest-other-items-to-users)
-      + [Phân tích ma trận thành nhân tử](#d----oa-n-s---du-ng----c-tr-ng-tf-idf)
+   * [Phân rã ma trận matrix factorization](#)
+      + [Phân tích ma trận thành nhân tử](#)
           + [Ma trận người dùng tiềm ẩn và film tiềm ẩn](#)
           + [Ý nghĩa của các ma trận](#)
-     + [Hàm mất mát](#d----oa-n-s---du-ng----c-tr-ng-tri-ch-xu--t-t---m--hi-nh-bert)
-     + [Đánh giá mô hình](#tu-xay-dung-mo-hinh-tiki)
-          + [MSE](#tien-xu-li)
-          + [MAE](#ap-dung-mang-neural-network-bai-toan-goi-y)
+     + [Hàm mất mát](#)
+     + [Đánh giá mô hình](#)
+          + [MSE](#)
+          + [MAE](#)
           + [SIA 1](#)
           + [SIA 0.5](#)
           + [SIA 0.25](#)   
-    * [Content Based](#review-rating-prediction-and-suggest-other-items-to-users)
-      + [Xây dựng feature vector bằng TF-IDF](#d----oa-n-s---du-ng----c-tr-ng-tf-idf)
-      + [Xây dựng mô hình cho mỗi user](#d----oa-n-s---du-ng----c-tr-ng-tri-ch-xu--t-t---m--hi-nh-bert)
-      + [Đánh giá mô hình](#tu-xay-dung-mo-hinh-tiki)
-          + [MSE](#tien-xu-li)
-          + [MAE](#ap-dung-mang-neural-network-bai-toan-goi-y)
+    * [Content Based](#)
+      + [Xây dựng feature vector bằng TF-IDF](#)
+      + [Xây dựng mô hình cho mỗi user](#)
+      + [Đánh giá mô hình](#)
+          + [MSE](#)
+          + [MAE](#)
           + [SIA 1](#)
           + [SIA 0.5](#)
           + [SIA 0.25](#)
-    * [Ứng dụng 1 số neural network đơn giản cho bài toán rating prediction](#review-rating-prediction-and-suggest-other-items-to-users)
+    * [Ứng dụng 1 số neural network đơn giản cho bài toán rating prediction](#)
           
-       + [Áp dụng MLP và GMF cho phương pháp phân rã ma trận matrix factorization](#d----oa-n-s---du-ng----c-tr-ng-tf-idf)
+       + [Áp dụng MLP và GMF cho phương pháp phân rã ma trận matrix factorization](#)
            + [Ý tưởng](#)
           + [GMF](#)
               + [Mô hình](#)
@@ -59,11 +63,11 @@
           + [GMF and MLP](#)
                + [Mô hình](#)
               + [Đánh giá mô hình](#)
-     * [Phân tích cảm xúc dựa trên đoạn văn review](#review-rating-prediction-and-suggest-other-items-to-users)
-          + [Tiền xử lý nội dung review](#d----oa-n-s---du-ng----c-tr-ng-tf-idf)
+     * [Phân tích cảm xúc dựa trên đoạn văn review](#)
+          + [Tiền xử lý nội dung review](#)
           + [Xây dựng input](#)
-        + [Tạo môt mô hình mạng neural đơn giản](#d----oa-n-s---du-ng----c-tr-ng-tri-ch-xu--t-t---m--hi-nh-bert)
-        + [Đánh giá mô hình](#tu-xay-dung-mo-hinh-tiki)
+        + [Tạo môt mô hình mạng neural đơn giản](#)
+        + [Đánh giá mô hình](#)
           + [Confusion Matrix](#)
           + [Precison, Recall](#)
 
@@ -76,7 +80,7 @@
   * [Làm sạch và tiền xử lý dữ liệu](#)
   * [Khám phá dữ liệu](#)
   * [Thử nghiệm các mô hình](#)
-- [Demo](#demo)
+- [Demo](#)
 
 ## Tự đánh giá dựa trên machine learning and data mining project
 
@@ -117,7 +121,6 @@
 |Phạm Thế Nam | Tìm hiểu và cài đặt phương pháp phân rã ma trận matrix factorization, slide để thuyết trình
 |Đỗ Mạnh Quân| Tìm hiểu và cài đặt phương pháp gợi ý content-based, code mẫu giao diện để demo
 |Cả nhóm| Tiền xử lý, tích hợp, khai phá, khám phá và trực quan hóa dữ liệu, và đóng góp ý kiến hoàn chỉnh code, báo cáo và slide.
-
 
 ## Giới thiệu đề tài:
 Kéo người dùng về hệ thống của mình là điều mà bất cứ một hệ thống nào hiên nay đều thực sự cần. Khi đó thì hệ thống phải khiến cho người dùng của mình dễ chịu, dễ chịu đặc biệt là cảm thấy tiện lợi khi sử dụng. Vì vậy nhóm chúng tôi đã tìm hiểu vấn đề dự đoán rating và gợi ý các bộ phim cho người dùng mà sao cho người dùng đó khả năng cao là thích, điều này thì nó tối ưu hóa thời gian tìm kiếm phim và tối ưu hóa mức độ tiện lợi khi sử dụng hệ thống.
