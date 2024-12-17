@@ -1,453 +1,446 @@
-# Học máy và khai phá dữ liệu
+# Film Recommendation System - Machine Learning and Data Mining
 
-***Chú ý:*** Do có viết 1 số công thức nên nhóm tôi khuyên bạn nên dùng file sau để xem đầy đủ chính xác và chi tiết hơn:
-https://hackmd.io/1GFmNyJIT4C4ecAF6Czgcw?both
+***Note:*** Due to the inclusion of some formulas, we recommend using the following file for a complete and accurate view:  
+[https://hackmd.io/@jjleeblogger/BJLNHhC4Je](https://hackmd.io/@jjleeblogger/BJLNHhC4Je)
 
+- [Machine Learning and Data Mining](#)
+  * [Contributors](#)
+  * [Work Allocation](#)
+- [Introduction to the Topic](#)
+- [Data Collection](#)
+- [Data Integration](#)
+- [Data Cleaning and Preprocessing](#)
+- [IMDB Datasets](#)
+- [Data Exploration](#)
+- [Key Concepts and Metrics for the Problem](#)
+- [Models](#)
 
-- [Học máy và khai phá dữ liệu](#)
-  * [Thành viên của nhóm](#)
-  * [Phân công công việc](#)
-- [Giới thiệu đề tài](#)
-- [Thu thập dữ liệu](#)
-- [Tích hợp dữ liệu](#)
-- [Làm sạch và tiền xử lý dữ liệu](#)
-- [IMDB datasets](#)
-- [Khám phá dữ liệu](#)
-- [Một số khái niệm và độ đo cần thiết cho bài toán](#)
-- [Mô hình](#)
- 
-  * [Lọc cộng tác collaborative filtering](#)
-      + [Similarity function](#)
-          + [Chuẩn hóa dữ liệu](#)
-          + [Hàm cosin tính độ tương đồng](#)
-    + [Mô hình](#)
-        + [User-Item](#)
-        + [Item-user](#)
-    + [Đánh giá mô hình](#)
-      + [MSE](#)
-      + [MAE](#)
-      + [SIA 1](#)
-      + [SIA 0.5](#)
-      + [SIA 0.25](#)
-     
-   * [Phân rã ma trận matrix factorization](#)
-      + [Phân tích ma trận thành nhân tử](#)
-          + [Ma trận người dùng tiềm ẩn và film tiềm ẩn](#)
-          + [Ý nghĩa của các ma trận](#)
-     + [Hàm mất mát](#)
-     + [Đánh giá mô hình](#)
-          + [MSE](#)
-          + [MAE](#)
-          + [SIA 1](#)
-          + [SIA 0.5](#)
-          + [SIA 0.25](#)   
-    * [Content Based](#)
-      + [Xây dựng feature vector bằng TF-IDF](#)
-      + [Xây dựng mô hình cho mỗi user](#)
-      + [Đánh giá mô hình](#)
+  * [Collaborative Filtering](#)
+      + [Similarity Function](#)
+          + [Data Normalization](#)
+          + [Cosine Similarity Function](#)
+      + [Model](#)
+          + [User-Item](#)
+          + [Item-User](#)
+      + [Model Evaluation](#)
           + [MSE](#)
           + [MAE](#)
           + [SIA 1](#)
           + [SIA 0.5](#)
           + [SIA 0.25](#)
-    * [Ứng dụng 1 số neural network đơn giản cho bài toán rating prediction](#)
-          
-       + [Áp dụng MLP và GMF cho phương pháp phân rã ma trận matrix factorization](#)
-           + [Ý tưởng](#)
-          + [GMF](#)
-              + [Mô hình](#)
-              + [Đánh giá mô hình](#)
-          + [MLP](#)
-               + [Mô hình](#)
-              + [Đánh giá mô hình](#)
-          + [GMF and MLP](#)
-               + [Mô hình](#)
-              + [Đánh giá mô hình](#)
-     * [Phân tích cảm xúc dựa trên đoạn văn review](#)
-          + [Tiền xử lý nội dung review](#)
-          + [Xây dựng input](#)
-        + [Tạo môt mô hình mạng neural đơn giản](#)
-        + [Đánh giá mô hình](#)
-          + [Confusion Matrix](#)
-          + [Precison, Recall](#)
 
-    
-    
- 
-      
-- [Hướng dẫn chạy chương trình](#)
-  * [Thu thập dữ liệu](#)
-  * [Làm sạch và tiền xử lý dữ liệu](#)
-  * [Khám phá dữ liệu](#)
-  * [Thử nghiệm các mô hình](#)
+  * [Matrix Factorization](#)
+      + [Matrix Decomposition](#)
+          + [Latent User and Movie Matrices](#)
+          + [Meaning of Matrices](#)
+      + [Loss Function](#)
+      + [Model Evaluation](#)
+          + [MSE](#)
+          + [MAE](#)
+          + [SIA 1](#)
+          + [SIA 0.5](#)
+          + [SIA 0.25](#)
+
+  * [Content-Based](#)
+      + [Building Feature Vectors with TF-IDF](#)
+      + [Constructing a Model for Each User](#)
+      + [Model Evaluation](#)
+          + [MSE](#)
+          + [MAE](#)
+          + [SIA 1](#)
+          + [SIA 0.5](#)
+          + [SIA 0.25](#)
+
+  * [Applying Simple Neural Networks for Rating Prediction](#)
+      + [Using MLP and GMF in Matrix Factorization](#)
+          + [Concept](#)
+          + [GMF](#)
+              + [Model](#)
+              + [Model Evaluation](#)
+          + [MLP](#)
+              + [Model](#)
+              + [Model Evaluation](#)
+          + [GMF and MLP](#)
+              + [Model](#)
+              + [Model Evaluation](#)
+
+  * [Sentiment Analysis Based on Review Texts](#)
+      + [Review Content Preprocessing](#)
+      + [Input Construction](#)
+      + [Building a Simple Neural Network Model](#)
+      + [Model Evaluation](#)
+          + [Confusion Matrix](#)
+          + [Precision, Recall](#)
+
+- [Program Instructions](#)
+  * [Data Collection](#)
+  * [Data Cleaning and Preprocessing](#)
+  * [Data Exploration](#)
+  * [Model Testing](#)
 - [Demo](#)
 
-## Tự đánh giá dựa trên machine learning and data mining project
+## Self-Assessment of the Machine Learning and Data Mining Project
 
-|Nội dung||
-|-|-|
-|Thu thập dữ liệu bằng cách sử dụng thư viện BeautifulSoup| Hoàn thành |
-| Tích hợp dữ liệu| Hoàn Thành|
-| Làm sạch và tiền xử lý dữ liệu| Hoàn thành|
-| Phân tích và khám phá dữ liệu các bộ film và rating|Hoàn Thành|
-| Phân tích cảm xúc dự đoạn mức độ hài lòng về 1 bộ film trên 2 mức 1-2-3 sao và 4-5 sao dựa vào 1 đoạn văn review |Hoàn thiện|
-| Xây dựng tập trung 3 mô hình lọc cộng tác, content based và phân rã ma trận|Hoàn thành|
+| Task | Status |
+|------|--------|
+| Data collection using the BeautifulSoup library | Completed |
+| Data integration | Completed |
+| Data cleaning and preprocessing | Completed |
+| Data exploration and analysis of movies and ratings | Completed |
+| Sentiment analysis on review texts for satisfaction levels (1-2-3 stars vs. 4-5 stars) | Completed |
+| Development of three main models: collaborative filtering, content-based, and matrix factorization | Completed |
 
-**Kết quả:** Nhóm đã có những góc nhìn 1 cách tổng quan về các phương pháp dự đoán rating và từ đó liên hệ qua bài toán gợi ý phim cho người dùng
+**Outcome:**  
+The group gained a comprehensive understanding of various rating prediction methods, providing insights to address the movie recommendation problem for users.
 
+---
 
-## Thành viên nhóm
+## Contributors
 
-|Họ & tên|MSSV|
-|-|-|
-|Lê Thành Long| 20194099
-|Phạm Thế Nam | 20190058
-|Đỗ Mạnh Quân| 20194143
+| Name | Student ID |
+|------|------------|
+| Lê Thành Long | 20194099 |
+| Phạm Thế Nam | 20190058 |
+| Đỗ Mạnh Quân | 20194143 |
+| Lê Đình Nam | 20194124 |
 
+***This project demonstrates how our group built a film recommender system for the IMDb website. It is a machine learning and data mining project conducted at our university.***  
 
-***This is a project about how our group built a film recommender system on imdb website. It is a machine learning and data mining project in my university***
-
-***My system's name is ImdbFilm_Recommender***
+***Our system is named ImdbFilm_Recommender.***  
 
 ***@Author: LNQ GROUP***
 
 ---
 
-## Phân công công việc trong nhóm
+## Work Distribution within the Group
 
-|Họ & tên|Nội dung công việc|
-|-|-|
-|Lê Thành Long| Code phần crawl data từ trang https://www.imdb.com/ và phương pháp lọc cộng tác collaborative filtering, một số mô hình mạng neural cải thiện kết quả
-|Phạm Thế Nam | Tìm hiểu và cài đặt phương pháp phân rã ma trận matrix factorization, slide để thuyết trình
-|Đỗ Mạnh Quân| Tìm hiểu và cài đặt phương pháp gợi ý content-based, code mẫu giao diện để demo
-|Cả nhóm| Tiền xử lý, tích hợp, khai phá, khám phá và trực quan hóa dữ liệu, và đóng góp ý kiến hoàn chỉnh code, báo cáo và slide.
-
-## Giới thiệu đề tài:
-Kéo người dùng về hệ thống của mình là điều mà bất cứ một hệ thống nào hiên nay đều thực sự cần. Khi đó thì hệ thống phải khiến cho người dùng của mình dễ chịu, dễ chịu đặc biệt là cảm thấy tiện lợi khi sử dụng. Vì vậy nhóm chúng tôi đã tìm hiểu vấn đề dự đoán rating và gợi ý các bộ phim cho người dùng mà sao cho người dùng đó khả năng cao là thích, điều này thì nó tối ưu hóa thời gian tìm kiếm phim và tối ưu hóa mức độ tiện lợi khi sử dụng hệ thống.
-
-Nhóm tập trung 3 phương pháp cơ bản chính như collaborative filtering, matrix factorization và content-based.
-
-Đặc biệt, nhóm chúng tôi còn áp dụng thêm GMF, MLP cho phương pháp matrix factorization(sẽ giới thiệu phần cuối project).
-
-Để đánh giá hiệu năng của các mô hình nhóm đã sử dụng phong phú các độ đo và tìm ra độ đo mà nó mang đúng ý nghĩa nhất đối với các mô hình dự đoạn rating từ đó gợi ý cho người dùng.
-
-## Thu thập dữ liệu
-
-Nhóm chúng tôi đã thu thập dữ liệu từ trang review phim nổi tiếng https://www.imdb.com/ mặc dù trên mạng đã có rất nhiều bộ data về cái này tuy nhiên bộ datasets của nhóm chúng tôi rất dồi dào về các thông tin chi tiết phim và thông tin rating và đặc biệt các bộ phim trên bộ dataset của nhóm chúng tôi toàn là phim mới đồng nghĩa là các review ở các bộ phim này cũng là gần đây.
-
-***Thư viện để thu thập dữ liệu là BeautifulSoup***
-(Code thu thập dữ liệu ở trong mục src của project)
-
-## Tích hợp dữ liệu
-
-Khi crawl về thì sẽ có khoảng 14 thể loại phim chính trong đó có các id của từng loại
-
-Tích hợp các file id lại với nhau và tiếp tục thu thập dữ liệu về phim và rating
-
-## Làm sạch và tiền xử lý dữ liệu
-
-Quá trình thu thập không tránh khỏi sai sót và lỗi đặc biệt trong quá trình thu thập data thì imdb có cơ chế chống crawl hàng loạt nên bộ dataset có 1 số missing value nhất định:
-
-***Một số bước cơ bản của làm sạch và tiền xử lý dữ liệu:***
-
-+ Đối với các bộ phim có title bằng nan thì xóa luôn
-+ Những user nào mà rating 1 bộ phim hơn 2 lần, xóa chỉ giữ lại 1 rating duy nhất
-+ Xóa những người nào rating quá nhiều và rating quá ít
-+ ...
-
-
-## IMDB datasets
-
-Gồm 3 bộ chính movie/ml_detail.csv , rating/ml_detail.csv và user/ids với ý nghĩa của các bộ dữ liệu lần lượt là thông tin chi tiết của bộ film, thông tin review về bộ phim đó và các id của user
-
-**Tổng quan và mô tả dữ liệu được sử dụng:**
-
-- **movie/ml_detail.csv:**  8352 dòng và 45 cột
-
-|    | Column             | Dtype   | Value range   | Description                                                                                                            |
-|---:|:-------------------|:--------|:--------------|:-----------------------------------------------------------------------------------------------------------------------|
-|  0 | movie id                 | string   | nan          | id của bộ film
-|  1 | title               | string  | nan           | Tên của bộ phim                                                                                                       |
-|  2 | series         | string |nan        | Có phải là series film hay không hay và film lẻ                                                                                         |
-|  3 | release year          | int64   | >= 0          | Năm phát hành bô phim                                                             |
-|  4 | certification             | string | nan          | Tagger cho bộ phim, phim được phụ huynh cho phép, phim người lớn, ...                                     |
-|  5 | duration              | string | nan           | Thời lượng của bộ phim                                                                                                 |                                                  |
-|  7 | average rating           | float   | >= 0          | số rating trung bình                                                                                     |
-|  8 |rating total             | string   | nan          | tổng số lượt rating                                                                                      |
-|  9 | genre list             | string   | nan          | Danh sách các thể loại film                                  |
-| 10 | content             | string   | nan          | Content của bộ phim                                  |
-| 11 | ...             | ...   | ...          | Bạn đọc tham khảo trong dataset                                                |
-
-
-
-- **rating/ml_detail.csv:** 93246 dòng, 9 cột
-
-
-|    | Column             | Dtype   | Value range   | Description                                                                                                            |
-|---:|:-------------------|:--------|:--------------|:-----------------------------------------------------------------------------------------------------------------------|
-|  0 | movie id                 | string   | nan          | id của bộ phim được đánh giá                 |
-|  1 | name               | string  | nan           | Tên của bộ phim                                                                                                       |
-|  2 | user id         | string |    nan         | id của user bình luận                                       |
-|  3 | rating          | int64   | 1-5          | Điểm đánh giá bộ phim                                    |
-|  4 | content             | string | nan          | Nội dung review bộ phim đó                                                                                              |
-|  5 | date              | string | nan           | Thời gian người dùng đánh giá                                                                                                 |                                                  |
-|  7 | user index           | int64   | 0-1389          | index của người dùng sau khi tiền xử lý dữ liệu và chuẩn hóa  user id                                      |
-|  8 | movie index             | int64   | 0-8351          | index của bộ phim  sau khi tiền xử lý dữ liệu và chuẩn hóa  movie id                                                                                             |
-
-
-**Chú ý:** Nhóm đã chia data của rating/ml_detail.csv theo ***k-flod (k == 5)*** rồi tính trung bình trên cả 5 fold.
-
-                                      
-## Khám phá dữ liệu:
-
-Nhóm chỉ nêu ra 1 số khám phá, chi tiết các bạn đọc ở trong project file ***[4] Data Exploration.ipynb***
-
-+ Tỷ lệ người xem phim hài và tình cảm là cao nhất, tỷ lệ trung bình rating cũng cao 
-+ Độ dài của review lúc chưa tiền xử lý trung bình khoảng 1500
-+ Phần lớn rating tập trung vào khoảng 3-4-5
-+ ...
-
-## Một số khái niệm và độ đo cần thiết trong project
-### SIA - Soft Interval Accuracy
-Một dự đoán được gói là đúng nói chênh lệch giữa dự đoán và thực tế <= siêu tham số epsilon:
-$|y_i - \hat{y_i}| <= eps$
-Và ***SIA*** sẽ bằng số mẫu đúng trên toàn bộ mẫu
+| Name | Task |
+|------|------|
+| Lê Thành Long | Implemented data crawling from [IMDb](https://www.imdb.com/), collaborative filtering, and several neural network models to enhance results. |
+| Phạm Thế Nam | Researched and implemented matrix factorization, and prepared presentation slides. |
+| Đỗ Mạnh Quân | Researched and implemented the content-based recommendation method, and developed a demo interface. |
+| Lê Đình Nam | Integrated, cleaned, and preprocessed data, including text preprocessing for review analysis. |
+| Entire Group | Data visualization, contributing ideas to refine code, report, and presentation slides. |
 
 ---
 
-### MAE - Mean Absolute Error
+## Project Introduction
 
-$MAE(y, \hat{y}) = \frac{1}{m} \sum\limits_{i = 1}^{m}|y_i - \hat{y_i}|$
+Attracting users to a system is a vital goal for any modern platform. To achieve this, the system must provide a comfortable and convenient user experience. Our group explored the problem of predicting ratings and recommending movies to users, aiming to suggest films that users are likely to enjoy. This approach optimizes users' search time and enhances their satisfaction with the system.
 
----
+We focused on three main methods: collaborative filtering, matrix factorization, and content-based recommendations.  
 
-### MSE - Mean Squared Error
+Additionally, we applied GMF and MLP models to improve matrix factorization (details are presented at the end of the project).  
 
-$MSE(y, \hat{y}) = \frac{1}{m} \sum\limits_{i = 1}^{m}(y_i - \hat{y_i})^2$
+To evaluate the models, we utilized various metrics, identifying the most meaningful ones for rating prediction and movie recommendation.
 
----
+## Data Collection
 
-### RMSE - Root Mean Squared Error
+Our group collected data from the renowned movie review website [IMDb](https://www.imdb.com/). While many datasets related to IMDb are already available online, our dataset stands out for its richness in detailed movie information and ratings. Notably, the movies in our dataset are all recent, which means the associated reviews are also up-to-date.
 
-$RMSE(y, \hat{y}) = \sqrt{\frac{1}{m} \sum\limits_{i = 1}^{m}(y_i - \hat{y_i})^2}$
-
----
-
-### Confusion Matrix
-Đặc biệt sử dụng cho các bài toán phân lớp và đây là 1 ma trận vuông có có size là ***số lớp * số lớp***.
-
-Tại hàng i côt j của ma trận có giá trị thuộc khoản từ ***0-1*** có ý nghĩa là số lượng mẫu ***đáng ra là thuộc lớp i nhưng đã dự đoán thuộc lớp j***
+***Library used for data collection: BeautifulSoup***  
+(The data collection script can be found in the `src` directory of the project.)
 
 ---
 
-### Precision và Recall
+## Data Integration
 
-Với bài toán phân loại 2 lớp thì:
-* Precision là tỷ lệ sô mẫu đoán đúng lớp thứ nhất trên số lượng ta dự đoán thứ 1
-* Recall là tỷ lệ số mẫu đoán đúng lớp thứ nhất trên số lượng mẫu thực sự thuộc lớp thứ 1
+During the data crawling process, we identified approximately 14 main movie genres, each associated with specific IDs.  
 
-***Chú ý:***
-* Precision cao nghĩa là xác suất tìm được các điểm đúng là cao
-* Recall cao nghĩa là xác suất mình bỏ sót các điểm đúng là thấp
+We integrated the genre files and continued to collect detailed data about movies and their ratings.
 
+---
 
-## Mô hình
-### Phương pháp lọc cộng tác collaborative filtering
-Metrics đánh giá mà nhóm sử dụng: ***Mean Absolute Error (MAE)*** hoặc ***Soft Interval Accuracy (SIA)*** hoặc ***Root Mean Square Error(RMSE)***
+## Data Cleaning and Preprocessing
 
-Các features sử dụng cho việc dự đoán: 
+Data collection inevitably involves errors and missing values. Additionally, IMDb implements anti-crawling mechanisms, which led to certain missing values in our dataset.
 
-|Feature name | Type | 
-|---|---|
-|movie index |numerical|
-|user index|numerical|
-|rating|numerical|
+***Basic steps for data cleaning and preprocessing:***
 
-#### Similarity Function
-##### Chuẩn hóa dữ liệu
+- Removed movies with `NaN` titles.
+- For users who rated the same movie more than once, only the first rating was kept.
+- Eliminated users who rated either excessively or too sparingly.
+- Standardized the IDs of users and movies.
+- Since a movie can belong to multiple genres (27 genres in total), we created 27 additional columns, each representing a genre. A value of 1 indicates that the movie belongs to that genre, while a value of 0 indicates otherwise.
+- Removed duplicate movies, users, and ratings.
 
-Ma trận user-item: có giá trị của mỗi ô là điểm rating của người dùng với bộ phim, với những bộ phim mà chưa có rating thì gán cho giá trị bằng trung bình cộng của các bộ phim người dùng đó đánh giá.
+---
 
-Chuẩn hóa lại các rating bằng cách là lấy giá trị của mỗi ô trừ đi giá trị trung bình của cột ứng với từng người dùng(Giá trị này chình là trung bình cộng của các bộ phim mà người dùng đo đánh giá)
+## IMDb Datasets
 
-Khi đó ma trận user-item sẽ chưa các giá trị dương và âm và 0. 0 nghĩa người dùng chưa đánh giá bộ phim đó
+Our project uses three main datasets:  
+- `movie/ml_detail.csv`: Detailed movie information.
+- `rating/ml_detail.csv`: Reviews and ratings for movies.
+- `user/ids`: User IDs.  
 
-##### Hàm cosin tính độ tương đồng
+### Overview and Description of the Datasets:
 
-Ứng với mỗi cột ta có 1 vector cho chính 1 người dùng.
-Giả sử ta có 2 vector u1 và u2.
-Để tính độ tương đồng  của 2 vector này thì ta có 1 công thức đơn giản sau:
+#### **`movie/ml_detail.csv`**  
+**Dimensions:** 8352 rows, 45 columns  
 
-$\text{cosine_similarity}(u_1, u_2) = cos(u_1,u_2) = \frac{u_1^Tu_2}{||u_1||_2.||u_2||_2}$   **(1)**
+|    | Column            | Dtype   | Value Range   | Description                                                                                  |
+|---:|:------------------|:--------|:--------------|:---------------------------------------------------------------------------------------------|
+|  0 | `movie id`        | string  | `NaN`         | The ID of the movie.                                                                         |
+|  1 | `title`           | string  | `NaN`         | The title of the movie.                                                                      |
+|  2 | `series`          | string  | `NaN`         | Indicates whether the movie is part of a series or a standalone film.                        |
+|  3 | `release year`    | int64   | `>= 0`        | The year the movie was released.                                                            |
+|  4 | `certification`   | string  | `NaN`         | The certification tag of the movie (e.g., parental guidance, adult content).                |
+|  5 | `duration`        | string  | `NaN`         | The runtime of the movie.                                                                    |
+|  7 | `average rating`  | float   | `>= 0`        | The average rating of the movie.                                                            |
+|  8 | `rating total`    | string  | `NaN`         | The total number of ratings the movie received.                                             |
+|  9 | `genre list`      | string  | `NaN`         | The list of genres the movie belongs to.                                                    |
+| 10 | `content`         | string  | `NaN`         | A brief synopsis of the movie.                                                              |
+| 11 | `...`             | `...`   | `...`         | Refer to the dataset for additional columns and details.                                     |
 
+---
 
-Giá trị của hàm consin-simlarity thuộc khoảng [-1, 1]
+#### **`rating/ml_detail.csv`**  
+**Dimensions:** 93,246 rows, 9 columns  
 
-* Giá trị 1: Hành vi của 2 user hoàn toàn giống nhau
-* Giá trị -1: Hành vi của 2 user hoàn toàn khác nhau
+|    | Column            | Dtype   | Value Range   | Description                                                                                  |
+|---:|:------------------|:--------|:--------------|:---------------------------------------------------------------------------------------------|
+|  0 | `movie id`        | string  | `NaN`         | The ID of the rated movie.                                                                   |
+|  1 | `name`            | string  | `NaN`         | The title of the movie.                                                                      |
+|  2 | `user id`         | string  | `NaN`         | The ID of the user who left the review.                                                     |
+|  3 | `rating`          | int64   | `1-5`         | The user's rating for the movie.                                                            |
+|  4 | `content`         | string  | `NaN`         | The review content.                                                                         |
+|  5 | `date`            | string  | `NaN`         | The date the review was submitted.                                                          |
+|  7 | `user index`      | int64   | `0-1389`      | The user's index after preprocessing and standardizing the `user id`.                       |
+|  8 | `movie index`     | int64   | `0-8351`      | The movie's index after preprocessing and standardizing the `movie id`.                     |
 
-#### Mô hình
+---
 
-***Chú ý***: Nhóm chỉ giải thích mô hình user-user còn item-item sẽ tương tự
+**Note:**  
+We split the `rating/ml_detail.csv` dataset using ***k-fold cross-validation (k = 5)*** and averaged the results across all folds.
 
-Sau khi tính được độ tương đồng giữa các user thì ta có 1 ma trận vuông với số hàng và số cột đều bằng số lượng người dùng với  giá trị nơi đường chéo chính là 1.
+## Data Exploration:
 
-Khi đó dựa trên ý tưởng của KNN, ta sẽ lấy ra k users gần với user đang xét và tính toán rating của người dùng đối với 1 sản phẩm mà người dùng đó chưa bao giờ đánh giá.
+The group highlights a few key findings from the data exploration phase. For more details, refer to the project file ***[4] Data Exploration.ipynb***.
 
-Công thức: 
+- The percentage of viewers for comedy and romance movies is the highest, and their average ratings are also relatively high.
+- The average length of reviews before preprocessing is approximately 1500 characters.
+- Most ratings fall in the range of 3-4-5.
+- ...
 
+---
 
-![](https://i.imgur.com/jDzadkS.png)
+## Key Concepts and Metrics Used in the Project
 
+### SIA - Soft Interval Accuracy  
+A prediction is considered correct if the difference between the predicted and actual values is within a hyperparameter epsilon:  
+$$|y_i - \hat{y_i}| \leq \epsilon$$  
+***SIA*** is then defined as the ratio of correctly predicted samples to the total number of samples.
 
+---
 
+### MAE - Mean Absolute Error  
+$$MAE(y, \hat{y}) = \frac{1}{m} \sum_{i=1}^{m} |y_i - \hat{y_i}|$$
 
-***Trong đó:*** N(u, i) là tập k user có độ tương đồng cao nhất với user u , đặc biệt các user này ***đã đánh giá bộ phim i*** 
+---
 
-***VD***:
+### MSE - Mean Squared Error  
+$$MSE(y, \hat{y}) = \frac{1}{m} \sum_{i=1}^{m} (y_i - \hat{y_i})^2$$
 
-Để tính điểm rating của **user u** lên **bộ phim i**, không mất tổng quát giả sử:
+---
 
-* Ta cần tính rating của ${u_0}$ lên ${i_0}$
-* Xét các người dùng còn lại mà cũng đánh giá bộ phim ${i_0}$ là ${u_1}$, ${u_2}$, ${u_4}$, ${u_5}$
-* Ta tính similarities của ${u_0}$ với các người dùng ${u_1}$, ${u_2}$, ${u_4}$, ${u_5}$ theo công thức **(1)**, giả sử là: **0.23, 0.45, -0.56, -0.1**
-* Chọn k là số hàng xóm, giả sử ***k = 3***
-* Ta sắp xếp và lấy ra 3 user gần với ${u_0}$ nhất là: ${u_1}$, ${u_2}$, ${u_5}$
-* Lấy trong bảng các giá trị rating sau khi normalized của các user ${u_1}$, ${u_2}$, ${u_5}$ lên bộ phim ${i_0}$, giả sử là: **0.25, 0.75, 1.25**
+### RMSE - Root Mean Squared Error  
+$$RMSE(y, \hat{y}) = \sqrt{\frac{1}{m} \sum_{i=1}^{m} (y_i - \hat{y_i})^2}$$
 
-* Khi đó kết quả rating của ${u_0}$ lên ${i_0}$ sẽ tính theo công thức **(2)**: 
+---
 
-   $\hat{y}_{i_0,u_0} =  \frac{\text{0.23 x 0.25 + 0.45 x 0.75 + (-0.1) x 1.25}}{\text{|0.23| + |0.45| + |-0.1|}} = 0.3461$
+### Confusion Matrix  
+Used primarily for classification problems, this is a square matrix with dimensions equal to ***number of classes × number of classes***.  
+The value at row \(i\), column \(j\) represents the proportion of samples ***belonging to class \(i\) but predicted as class \(j)\***.
 
+---
 
+### Precision and Recall  
 
+For binary classification problems:
+- **Precision:** The ratio of correctly predicted samples for class 1 to the total samples predicted as class 1.  
+- **Recall:** The ratio of correctly predicted samples for class 1 to the total samples that truly belong to class 1.  
 
-Nhóm chọn ***k = 50*** với bộ dataset đã crawl được(Nhóm đã thử trên nhiều giá trị k khác nhau nhưng mà với giá trị k = 50 thì mô hình tốt trên hầu hết các độ đo)
+***Key Notes:***
+- High precision implies a low likelihood of false positives.
+- High recall implies a low likelihood of missing true positives.
 
+---
 
-#### Đánh giá mô hình
+## Model
 
-Kết quả:
+### Collaborative Filtering  
+This project utilizes **Collaborative Filtering** for prediction, evaluated using metrics like ***Mean Absolute Error (MAE)***, ***Soft Interval Accuracy (SIA)***, or ***Root Mean Square Error (RMSE)***.
 
+#### Features Used for Prediction  
+
+| Feature Name | Type       |  
+|--------------|------------|  
+| `movie index` | numerical |  
+| `user index`  | numerical |  
+| `rating`      | numerical |  
+
+---
+
+### Similarity Function  
+
+#### Data Normalization  
+- **User-item matrix:** Each cell represents the rating of a user for a specific movie. If a movie has not been rated by a user, the value is set to the average of the movies rated by that user.  
+- **Normalization:** For each rating, subtract the mean rating of the corresponding user. After normalization, the matrix contains positive, negative, and zero values, where zero indicates an unrated movie.
+
+---
+
+#### Cosine Similarity  
+
+Each column in the matrix represents a user vector. Given two user vectors \(u_1\) and \(u_2\), their similarity is calculated as:  
+$$\text{cosine_similarity}(u_1, u_2) = \frac{u_1^T u_2}{\|u_1\|_2 \cdot \|u_2\|_2}$$  
+
+- **Value range:** [-1, 1]  
+  - \(1\): Behavior of the two users is identical.  
+  - \(-1\): Behavior of the two users is entirely opposite.
+
+---
+
+### Model Description  
+
+***Note:*** The group explains the user-user model here; the item-item model follows a similar logic.
+
+1. Compute the similarity between users to form a square matrix with dimensions equal to the number of users. The diagonal values of the matrix are all \(1\).
+2. Using the idea of K-Nearest Neighbors (KNN), select \(k\) users most similar to the target user.
+3. Predict the rating of a target user for a movie they have not rated based on these \(k\) nearest neighbors.
+
+---
+
+#### Prediction Formula  
+
+![](https://i.imgur.com/jDzadkS.png)  
+
+Where:
+- \(N(u, i)\) is the set of \(k\) users most similar to user \(u\) who have rated movie \(i\).  
+- \(\text{sim}(u, u')\) is the similarity between user \(u\) and user \(u'\).  
+- \(\overline{r}_{u'}\) is the mean rating of user \(u'\).  
+
+---
+
+### Example Calculation  
+
+To predict the rating of **user \(u_0\)** for **movie \(i_0\):**
+1. Consider other users who have rated \(i_0\): \({u_1}, {u_2}, {u_4}, {u_5}\).
+2. Compute the similarities of \(u_0\) with these users using cosine similarity:  
+   **0.23, 0.45, -0.56, -0.1**.
+3. Set \(k = 3\) and select the top 3 most similar users: \({u_1}, {u_2}, {u_5}\).
+4. Retrieve the normalized ratings of these users for \(i_0\): **0.25, 0.75, 1.25**.
+5. Compute the predicted rating:  
+   $$\hat{y}_{i_0, u_0} = \frac{(0.23 \cdot 0.25) + (0.45 \cdot 0.75) + (-0.1 \cdot 1.25)}{|0.23| + |0.45| + |-0.1|} = 0.3461$$  
+
+---
+
+### Hyperparameter \(k\):  
+The group tested various values of \(k\) and found \(k = 50\) to work best across most metrics with the crawled dataset.
+
+#### Model Evaluation
+
+Results:
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
 |-|-|-|-|-|-|
 |train|0.44|0.28|0.98|0.59|0.31|
 |test|0.77|0.99|0.72|0.42|0.23|
 
-    
-***Nhận xét***: ta thấy mô hình đạt được độ chính xác khá tốt. Hiệu năng trên tập `val` và `test` lệch nhau khá ít ở các độ đo MAE và MSE. Đối với SIA metric thì ta thấy 72% mẫu test mình dự đoán trong vùng chấp nhận được với sai số là 1 và tiếp tục 2 độ đo SIA 0.5 và 0.25 khá thấp trên tập test.
-Nhóm dự đoán có thể do trong quá trình review phim thì rất là khó để chúng ta phân biêt được khi nào nên rating 2, khi nào nên rating 3, nên nhóm quyết định sẽ lấy độ đo SIA 1 làm độ đo chính cho các mô hình phía sau và bên cạnh đó có 2 độ đo giúp ta giám sát nữa là MAE tính trung bình trị tuyệt đối độ chênh lệch và MSE trung bình phương độ chênh lệch.
-
+***Comments***: The model achieves good accuracy. The performance on the `val` and `test` sets differs slightly for the MAE and MSE metrics. For the SIA metric, we observe that 72% of the test samples are predicted within an acceptable range with an error of 1, and the SIA 0.5 and SIA 0.25 scores are quite low on the test set. The team believes that movie ratings are hard to determine, especially when distinguishing between ratings like 2 or 3, so we decided to use the SIA 1 metric as the main evaluation metric for future models, with MAE and MSE as secondary metrics for monitoring.
 
 ---
 
-### Phương pháp phân rã ma trận matrix factorization
-#### Phân tích ma trận thành nhân tử
+### Matrix Factorization Method
 
-##### Xấp xỉ bằng 2 ma trận tiềm ẩn
+#### Matrix Factorization into Factors
 
-***Ý tưởng*** :Với ma trận user-item và giá trị của mỗi ô là điểm rating mà user đánh giá cho item, trong đó có các ô trông vì có những bộ phim mà người dùng chưa xem. Ta sẽ xấp xỉ ma trận kết quả bằng 2 ma trận ẩn gọi là ma trận người dùng ẩn và ma trận phim ẩn
+##### Approximation with Two Latent Matrices
 
-Gọi ma trận R là ma trận user-item chúng ta thành lập được khi đó ta sẽ xấp xỉ ma trận này bằng tích 2 ma trận ẩn P và Q.
+***Idea***: Given a user-item matrix where each entry represents a rating given by a user to an item, some entries may be missing because users have not rated some movies. We approximate this matrix using two latent matrices, called the user latent matrix and the movie latent matrix.
 
-Ma trận R có kích thước m x n với m người dùng và n bộ phim.
-Gọi 2 ma trận ẩn là ma trận P có kích thước m x k và ma trận Q có kích thước n x k (lấy k << m, n)
+Let matrix R represent the user-item matrix, which we approximate by the product of two latent matrices, P and Q.
 
-Khi đó:
+Matrix R has dimensions m x n, where m is the number of users and n is the number of movies. Let the two latent matrices be P (m x k) and Q (n x k), where k << m, n.
+
+Then:
 
 \begin{equation}
 \hat{R}  = PQ^T
 \end{equation}
 
-
-Củ thể đối với điểm rating người dùng u đánh giá bộ phim i ta có:
+Specifically, for the rating of user u on movie i, we have:
 \begin{equation}
 \hat{R_\text{ui}}  = p_u q_i^T
 \end{equation}
 
+##### Meaning of the Two Latent Matrices
 
+The user latent matrix P contains rows where each row p_u represents the preferences of user u for various movie features such as genre, content, etc.
 
+The movie latent matrix Q contains rows where each row q_i represents the level of movie i's ownership of certain features, such as title, genre, or content.
 
+***Note***: The formulas above include a bias term bu. Why do we need to add a bias for each user?
 
-##### Ý nghĩa của 2 ma trận tiềm ẩn
+This is because people's movie-watching habits can vary, affecting how they rate a movie.
 
-Ma trận tiềm ẩn P của người dùng trong đó hàng pu của ma trận sẽ chứa các giá trị là mức dộ yêu thích của người dùng u với các đặc trưng của 1 bộ phim ví dụ như thể loại, nội dung, ...
+***Reason:*** Some people are more lenient and might rate a good movie 5 stars, while others may rate it 4 or even 3 stars.
 
-Ma trận tiềm Q của các bộ phim trong đó hàng qi sẽ chứa các giá trị đo lường mức độ sở hữu các đặc trưng như  là tiêu đề, thể loại hay là nội dung bộ phim
+To address this, our team calculates the bias for each user as the average rating given by that user to the movies they have watched. If we set the bias to 2.5, for example, this might not be accurate for more critical users.
 
-***Chú ý***: Ở các công thức trên có đề cập thì ta có thêm bias bu.
-Vì sao lại phải thêm bias cho từng user?
+#### Loss Function
 
-Tùy thuộc vào tính cách xem phim của mỗi người mà họ có thể quyết định số điểm mà họ đánh giá cho bộ phim đó.
-
-***Lý do:*** Có người dễ tính, có người khó tính, dễ tính phim hay có thể cho 5 sao nhưng mà khó tính có thể chỉ cho 4 sao hoặc thậm chí là 3 sao chẳng hạn.
-
-Vậy để giải quyết vấn đề này nhóm chúng tôi đã lấy bias của mỗi user là trung bình cộng số điểm mà người đó rating cho những bộ phim mà người ấy xem. Nếu chọn 2.5 thì giả sử người dùng mà khó tính thì giá trị này không đúng cho lắm.
-
-
-
-
-#### Hàm mất mát
-
-Hàm lỗi nhóm chúng tôi sử dụng là trung bình cộng của bình phương độ chênh lệch kết quả dự doán và kết quả thực tế và dùng thêm l2 regularization để tránh overfitting
+The loss function used by our team is the average squared difference between predicted and actual ratings, with L2 regularization to prevent overfitting.
 
 $\text{RSS}(y, \hat{y}) = {\frac{1}{m} \sum\limits_{i=1}^{m} (y_i - \hat{y}_i)^2}$
 
 $Loss(y, \hat{y}) = \text{RSS}(y, \hat{y}) + \text{Regularization_Func(P, Q)}$
 
-***Chú ý:*** Ở đây nhóm chúng tôi chọn hàm hiệu chỉnh có công thức là:
+***Note***: Our team chose the regularization function:
 
 $\text{Regularization_Func(P, Q)} = \frac{1}{2} * {\lambda} *  (\sqrt{\sum\limits_{i=1}^m \sum\limits_{j=1}^k |p_{ij}|^2} + \sqrt{\sum\limits_{i=1}^n \sum\limits_{j=1}^k |q_{ij}|^2} )$
 
+#### Model Evaluation
 
-
-#### Đánh giá mô hình
-
-Kết quả:
-* ***Khi lamda=0***
+Results:
+* ***When lambda=0***
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
 |-|-|-|-|-|-|
 |train|1.46|3.48|0.48|0.23|0.1430|
 |test|1.47|3.55|0.48|0.23|0.1438|
 
-* ***Khi lamda=0.1***
+* ***When lambda=0.1***
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
 |-|-|-|-|-|-|
 |train|0.76|0.96|0.71|0.42|0.23|
 |test|0.78|1.01|0.70|0.41|0.22|
 
-
-* ***Khi lamda=0.5***
-
-|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
-|-|-|-|-|-|-|
-|train|0.76|0.96|0.72|0.42|0.23|
-|test|0.78|1.01|0.71|0.42|0.22|
-
-
-* ***Khi lamda=1***
+* ***When lambda=0.5***
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
 |-|-|-|-|-|-|
 |train|0.76|0.96|0.72|0.42|0.23|
 |test|0.78|1.01|0.71|0.42|0.22|
 
-    
-***Nhận xét***: 
+* ***When lambda=1***
 
-Khi ***lamda=0***, ta thấy mô hình đạt độ chính xác khá thấp cả tập train và tập test, đặc biệt tập tain có độ chính xác còn cao hơn tập test. Việc loại bỏ hiệu chỉnh l2 khiến cho mô hình học khá tệ
+|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+|-|-|-|-|-|-|
+|train|0.76|0.96|0.72|0.42|0.23|
+|test|0.78|1.01|0.71|0.42|0.22|
 
+***Comments***:
 
-Khi cho ***lamda != 0*** ta thấy mô hình đạt được độ chính xác khá tốt và tập test và tập train không chênh lệch nhiều Hiệu năng trên tập `val` và `test` lệch nhau khá ít ở các độ đo MAE và MSE. 
+When ***lambda=0***, the model's accuracy is quite low for both the train and test sets, with the train set being more accurate than the test set. Removing the L2 regularization results in poor learning.
 
-Khi ***lamda=0.1, 0.5, 1*** kết quả gần nhữ xấp xỉ nhau nên nhóm chon ***lamda=0.5*** làm kết quả cuối cùng
+When ***lambda != 0***, the model achieves good accuracy, with minimal difference between the train and test sets. The performance on the `val` and `test` sets differs slightly for the MAE and MSE metrics.
 
-Đối với SIA metric thì ta thấy 70% mẫu test mình dự đoán trong vùng chấp nhận được với sai số là 1 và tiếp tục 2 độ đo SIA 0.5 và 0.25 khá thấp trên tập test.Mô hình cho kết quả tốt hơn khi thêm hiểu chỉnh l2. Nhóm dự đoán có thể do trong quá trình review phim thì rất là khó để chúng ta phân biêt được khi nào nên rating 2, khi nào nên rating 3, nên nhóm quyết định sẽ lấy độ đo SIA 1 làm độ đo chính cho các mô hình phía sau và bên cạnh đó có 2 độ đo giúp ta giám sát nữa là MAE tính trung bình trị tuyệt đối độ chênh lệch và MSE trung bình phương độ chênh lệch.
+For ***lambda=0.1, 0.5, 1***, the results are nearly identical, so we choose ***lambda=0.5*** as the final value.
 
-***Với lamda=0.5:***
+For the SIA metric, we see that 70% of the test samples are predicted within an acceptable range with an error of 1, with the SIA 0.5 and SIA 0.25 scores being quite low on the test set. The model performs better when L2 regularization is added. The team believes that rating movies can be difficult due to the subjective nature of reviews, so we decided to use SIA 1 as the main metric for future models, alongside MAE and MSE for monitoring.
+
+***With lambda=0.5:***
 * learning_rate=0.1:
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
@@ -476,112 +469,177 @@ Khi ***lamda=0.1, 0.5, 1*** kết quả gần nhữ xấp xỉ nhau nên nhóm c
 |train|0.76|0.96|0.72|0.42|0.23|
 |test|0.78|1.01|0.71|0.42|0.22|
 
----
+* ***With lambda = 0.5, learning_rate = 0.75:***
 
-### Phương pháp gợi ý dựa trên nội dung content-based
-#### Xây dựng feature vector bằng TF-IDF
+* When k = 5:
 
-Trong bộ dataset movie/ml_detail.csv, thì chúng ta có 27 cột chi tiết là 27 cột thể loại, 1 bộ phim có thể thuộc nhiều thể loại
+|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+|-|-|-|-|-|-|
+|train|0.76|0.96|0.72|0.42|0.23|
+|test|0.78|1.01|0.71|0.42|0.22|
 
-***VD:*** Thể loại của 1 bộ phim là ***Animation|Comedy|Family*** khi đó các cột Animation, Comedy và Family của bộ phim có giá trị là 1 và 24 cột thể loại phim còn lại có giá trị 0.
+* When k = 7:
 
-Ta sẽ xây dựng ma trận feature vector bằng TF-IDF trong đó từng hàng của  ma trận chính là feature vector của từng bộ phim
+|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+|-|-|-|-|-|-|
+|train|0.76|0.96|0.72|0.42|0.23|
+|test|0.78|1.01|0.71|0.42|0.22|
 
-#### Xây dựng mô hình cho mỗi user
+* When k = 10:
 
-Sau khi có được ma trận feature vector, ta sẽ xây dựng mô hình cho riêng từng user, ở đây nhóm chúng tôi dùng mô hình hồi quy đơn giản, củ thể ở đây bọn em dùng các mô hình như hỗ quy tuyến tính (Linear Regression)  và  thêm mô hình hồi quy Ridge (Ridge Regression)
+|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+|-|-|-|-|-|-|
+|train|0.76|0.96|0.72|0.42|0.23|
+|test|0.78|1.01|0.71|0.42|0.22|
 
-#### Hàm lỗi
+* When k = 20:
+
+|Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+|-|-|-|-|-|-|
+|train|0.76|0.96|0.72|0.42|0.23|
+|test|0.78|1.01|0.71|0.42|0.22|
+
+### Content-Based Recommendation Method
+#### Constructing Feature Vector Using TF-IDF
+
+In the dataset movie/ml_detail.csv, we have 27 columns representing genres, and each movie can belong to multiple genres.
+
+***Example:*** A movie belongs to the genres ***Animation|Comedy|Family***, so the columns for Animation, Comedy, and Family have a value of 1, while the other 24 genre columns have a value of 0.
+
+We will construct a feature vector matrix using TF-IDF, where each row of the matrix represents the feature vector for each movie.
+
+#### Building a Model for Each User
+
+After obtaining the feature vector matrix, we will build a model for each user. In this case, our team uses a simple regression model. Specifically, we use models like Linear Regression and add a Ridge Regression model.
+
+#### Error Function
 
 $\text{RSS}(y, \hat{y}) = {\frac{1}{m} \sum\limits_{i=1}^{m} (y_i - \hat{y}_i)^2}$
 
 $Loss(y, \hat{y}) = \text{RSS}(y, \hat{y}) + \text{Regularization_Func}$
 
-***Chú ý:*** Ở đây nhóm chúng tôi chọn ***hàm hiệu chỉnh*** có công thức là:
+***Inputs:***
 
-$\text{Regularization_Func} = \frac{1}{2} * {\lambda} *  (\sqrt{\sum\limits_{i=1}^m \sum\limits_{j=1}^k |p_{ij}|^2} + \sqrt{\sum\limits_{i=1}^n \sum\limits_{j=1}^k |q_{ij}|^2} )$
+* The input X for user u is the feature extractor of the movies that u has rated.
+* The input y for user u is the rating scores for the movies that u has watched.
 
-* ***Với hồi quy tuyến tính thì ${\lambda}$ = 0***
-* ***Với hồi quy Ridge thì ${\lambda}$ != 0***
+#### Model Evaluation
 
-***Đầu vào:***
+Results:
 
-* Đầu vào X của user u là feature extractor của các bộ phim mà u đánh giá
-* Đầu vào y của user u là các điểm đánh giá cho các bộ phim mà u đã xem
-
-#### Đánh giá mô hình
-
-Kết quả:
-
-* Mô hình Linear Regression
+* Linear Regression Model
 
 |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
 |-|-|-|-|-|-|
 |train|0.60|0.71|0.78|0.53|0.35|
 |test|0.88|1.39|0.67|0.39|0.23|
 
-* Mô hình Ridge Regression:
-    + ***(alpha=500)***
+* Ridge Regression Model:
+    + ***(${\lambda}$=0.1)***
 
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
-        |train|0.76|0.96|0.71|0.42|0.23|
-        |test|0.78|1.01|0.70|0.41|0.22|
+        |train|0.6292|0.7256|0.7788|0.5168|0.3239|
+        |test|0.8327|1.2132|0.6824|0.4031|0.2268|
+
+    + ***(${\lambda}$=1)***
+
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.6816|0.7916|0.7583|0.4727|0.2627|
+        |test|0.7945|1.0689|0.6967|0.4119|0.2246|
     
+    + ***(${\lambda}$=5)***
 
-***Nhận xét***: 
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.7299|0.8849|0.7296|0.4372|0.2365|
+        |test|0.7812|1.0183|0.7024|0.4129|0.2225|
+    
+    + ***(${\lambda}$=10)***
 
-Xét trên độ đo chính mà nhóm chúng tôi sử dụng thì trên cả 2 mô hình Ridge và Linear Regression là SIA 1, ta thấy mô hình Linear Regession có 67% mẫu trên tập test được dự đoán thuộc vùng chấp nhận được còn mô hình Ridge với alpha = 500 thì 70% mẫu trên tập test được dự đoán thuộc vùng chấp nhận được.
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.7436|0.9165|0.7217|0.4298|0.2315|
+        |test|0.7798|1.0129|0.7028|0.4132|0.2226|
+        
+    + ***(${\lambda}$=100)***
 
-Sử dụng hồi quy ridge có vẻ hiểu quả hơn hồi quy tuyến tính, sở dĩ là vì có siêu tham số alpha giúp cho hồi quy ridge chống hiện tượng overfitting.
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.7601|0.9581|0.7137|0.4223|0.2269|
+        |test|0.7791|1.0106|0.7037|0.4125|0.2226|
+    
+     + ***(${\lambda}$=500)***
+
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.7618|0.9627|0.7136|0.4221|0.2267|
+        |test|0.7791|1.0106|0.7037|0.4124|0.2225|
+    
+    + ***(${\lambda}$=1000)***
+
+        |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
+        |-|-|-|-|-|-|
+        |train|0.7618|0.9627|0.7136|0.4221|0.2267|
+        |test|0.7791|1.0106|0.7037|0.4124|0.2225|
+    
+        
+            
+
+***Observations:***
+
+Based on the main metric used by our team, which is SIA 1, we see that the Linear Regression model predicts 67% of the test samples within an acceptable range. Meanwhile, for Ridge with ${\lambda} = 5, 100, 500, 1000$, around 70% of the test samples are predicted within the acceptable range.
+
+Ridge regression seems more effective than linear regression, mainly because the alpha hyperparameter helps prevent overfitting.
 
 ---
 
-### Ứng dụng 1 số neural network đơn giản cho bài toán rating prediction
+### Application of Simple Neural Networks for Rating Prediction
 
-#### Áp dụng MLP và GMF cho phương pháp phân rã ma trận matrix factorization
+#### Applying MLP and GMF to Matrix Factorization Method
 
-##### Ý tưởng
+##### Idea
 
-Như các bạn đã biết thì phương pháp phân rã ma trận đã đề cập ở trên thì chúng ta đi tìm 2 ma trận ẩn của người dùng và phim sao cho tích của chúng làm sao để sát với ma trận đánh giá nhất có thể là càng tốt.
+As you know, the matrix factorization method we mentioned earlier finds two latent matrices for users and movies such that their product approximates the rating matrix as closely as possible.
 
-Tính đơn giản của phép nhân tích vô hướng của 2 ma trận, rất khó để học được các thuộc tính ẩn của cả user và phim.
+The simplicity of the dot product of two matrices makes it difficult to learn the latent features of both users and movies.
 
-Vì vậy ở mục này nhóm chúng tôi xin đề cập tới 1 mạng phân rã ma trận nơ ron có tên là NeuMF. Sở dĩ nhóm chúng tôi đề cập tới mạng nơ ron nhân tạo ở đây bởi vì tính linh hoạt và tính phi tuyến của nó.
+Therefore, in this section, our team introduces a neural matrix factorization network called NeuMF. We are using neural networks here due to their flexibility and non-linearity.
 
-Ở trong mục này nhóm chúng tôi sẽ đề cập tới 2 mạng con có tên là phân rã ma trận tổng quát (***Generalized Matrix Factorization) hay GMF*** và 1 mạng con nữa là ***MLP***
+In this section, we will focus on two sub-networks: ***Generalized Matrix Factorization (GMF)*** and ***MLP***. 
 
-nhóm chúng tôi sẽ sử dụng từng mạng một và kết hợp chúng lại với nhau và đánh giá kết quả của các mạng này ở mục sau
+We will use each network individually and combine them to evaluate their performance in the next section.
 
 ##### GMF - Generalized Matrix Factorization
 
-###### Mô hình
-Mạng con GMF tương tự như cấu trúc ở phương pháp Matrix Factorization nhóm chúng tôi đã đề cập ở trước với 2 ma trận tiềm ẩn user embedding của user và item embedding của film với size lần lượt là ***(num_users + 1) * latent_dim và (num_items + 1) * latent_dim***
+###### Model
+The GMF sub-network is similar to the matrix factorization method we discussed earlier with two latent matrices: the user embedding matrix and the movie embedding matrix, with sizes of ***(num_users + 1) * latent_dim and (num_items + 1) * latent_dim*** respectively.
 
-***Trong đó:*** num_users và num_items là số lượng user và item, latent_dim là ***số đặc trưng ẩn*** của phim và user mà bạn muốn   model của bạn học.
+***Where:*** num_users and num_items are the number of users and items, and latent_dim is the number of hidden features of the movies and users you want your model to learn.
 
-***Vì sao lại cộng 1 trong num_users và num_items?***
+***Why add 1 to num_users and num_items?***
 
-Như chúng ta đã biết thì hệ thống không có số lượt user và item cố định vì vậy khi đâu vào là 1 user hoặc 1 item mới mà không có trong hệ thống trước đó thì user hoặc item đó sẽ mang giá trị là ***<OOV>(Tương tự như 1 từ không tồn tại trong từ điển)***
-    
-***Chú ý:*** trong quá trình cài đặt thuật toán nhóm chúng tôi có thể thêm ***Embedding regularizer l2*** để có thể tránh overfitting cho cả user và item
-    
-Sau khi tạo 2 ma trận tiềm ẩn cho user và item thì ta làm dãn 2 ma trận này và thực hiện tính tích 2 ma trận này (element-wise) và cuối cùng cho qua 1 lớp ***Dense size 1*** và đó chính là điểm rating được predict.
-    
-Cấu trúc mạng tổng quát:
-    
+As we know, the system does not have a fixed number of users and items. Therefore, when a new user or item appears that has not been encountered before, it will be assigned an ***<OOV>*** value (similar to a word that does not exist in a dictionary).
+
+***Note:*** In the algorithm implementation, our team may add an ***Embedding regularizer l2*** to prevent overfitting for both users and items.
+
+After creating two latent matrices for users and items, we expand these matrices and perform the element-wise product of these two matrices. Finally, the result is passed through a ***Dense size 1*** layer to predict the rating.
+
+General Network Structure:
+
 ![](https://i.imgur.com/tQDmHzY.png)
     
-###### Đánh giá mô hình
+###### Model Evaluation
 
-* Matrix Factorization đơn giản    
+* Simple Matrix Factorization    
     |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
     |-|-|-|-|-|-|
     |train|0.76|0.96|0.71|0.42|0.23|
     |test|0.78|1.01|0.70|0.41|0.22|
     
-* Matrix Factorization khi áp dụng thêm GMF
-    
+* Matrix Factorization with GMF
+
     * ***Glorot-normal***
     
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
@@ -604,248 +662,180 @@ Cấu trúc mạng tổng quát:
     * ***He-uniform***
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
-        |train|0.6413|0.7038    |0.7870|0.4982|0.2751|
+        |train|0.6413|0.7038|0.7870|0.4982|0.2751|
         |test|0.8108|1.0813|0.6820|0.3954|0.2094|
     
-    
 
-***Nhận xét:*** 
-Hầu hết trên toàn bộ độ đo trên tập train, GMF tốt hơn mô hình matrix factorization, nhưng tập test thì có vẻ là tệ hơn. Mô hình đang bị overfit quá nặng và nhìn qua mô hình là vẫn chưa có thêm nhiều tình phi tuyến như ta đã nói từ trước.
-    
-Ta sẽ cải thiện với mô hình dưới.    
+***Observations:*** 
+On most metrics, GMF outperforms the simple matrix factorization model on the training set, but on the test set, it seems to perform worse. The model is overfitting heavily and still lacks much of the non-linearity we discussed earlier.
 
-##### MLP - Multilayer perceptron
+We will improve this with the next model.
 
-###### Mô hình
+##### MLP - Multilayer Perceptron
 
-Mô hình MLP là 1 mạng neural network đa tầng, cũng như GMF nhóm chúng tôi cũng tạo ra 2 ma trận tiềm cho user và item.
-    
-Sau khi qua 2 ma trận tiềm ẩn thì flatten 2 ma trận này và concatenate chúng lại với nhau.
-    
-***Phần chính của MLP ở đây:***
-Xây dụng 1 neural network có ***num_layer(là 1 list các số nguyên mà mỗi số ứng với số node ẩn của từng tầng trừ tâng đàu tiên ra vì đó là tống số chiều đầu ra của 2 lớp embedding ẩn )*** với hàm kích hoạt là ***relu***
+###### Model
 
-Và lớp cuối cùng chắc chắn là lớp ***Dense size 1*** có giá trị đầu ra là rating được dự đoán
-    
-Cấu trúc mạng tổng quát
+The MLP model is a multi-layer neural network. Similar to GMF, our group also creates 2 latent matrices for user and item.
+
+After passing through the 2 latent matrices, we flatten both and concatenate them.
+
+***The main part of the MLP here:***  
+Build a neural network with ***num_layer (a list of integers where each number corresponds to the number of hidden nodes for each layer, excluding the first layer, as it is the total dimension output of the 2 embedding layers)*** with ReLU as the activation function.
+
+The final layer is always a ***Dense layer of size 1*** with the predicted rating as the output.
+
+General network structure
 
 ![](https://i.imgur.com/EXeF90L.png)
 
-###### Đánh giá mô hình
-* Matrix Factorization đơn giản    
+###### Model Evaluation
+
+* Simple Matrix Factorization  
     |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
     |-|-|-|-|-|-|
     |train|0.76|0.96|0.71|0.42|0.23|
     |test|0.78|1.01|0.70|0.41|0.22|
-* Matrix Factorization khi áp dụng thêm MLP
-    
+
+* Matrix Factorization with MLP  
+
     * ***Glorot-normal***
-    
+
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6497|0.7056|0.7825|0.4851|0.2588|
         |test|0.7337|0.8921|0.7283|0.4377|0.2288|
-    
+
     * ***Glorot-uniform***
-    
+
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6425|0.7008|0.7905|0.4931|0.2655|
         |test|0.7308|0.8997|0.7345|0.4414|0.2340|
-    
+
     * ***He-normal***
-    
+
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6091|0.6482|0.8094|0.5232|0.2910|
         |test|0.7216|0.8910|0.7390|0.4514|0.2428|
-    
+
     * ***He-uniform***
-    
+
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6048|0.6416|0.8122|0.5284|0.2925|
         |test|0.7264|0.9043|0.7380|0.4486|0.2413|
 
-***Nhận xét:*** Khi sử dụng thêm mạng neural đa tầng ta thấy ngay hiệu quả , tất cả độ đo đều tốt hơn so với mô hình ***Matrix Factorization đơn giản đã đề cập trước đó***.
+***Comment:*** When using a multi-layer neural network, we immediately see the effectiveness, as all metrics perform better compared to the previously mentioned ***simple Matrix Factorization model***.
 
-Khi sử dụng mạng neural ta đã thấy thêm tính phi tuyến nó hiệu quả như thế nào  
+Using the neural network introduces non-linearity, and we can observe its effectiveness.
 
-##### Áp dụng cả GMF và MLP    
+##### Applying Both GMF and MLP    
 
-###### Mô hình
-Khi ta áp dụng của GMF và MLP mô hình sẽ có cấu trúc như sau:
+###### Model
+When we apply both GMF and MLP, the model will have the following structure:
 
 ![](https://i.imgur.com/1Rub0MR.png)
 
-Do áp dụng 2 mô hình lại với nhau nên ở đầu ra của mỗi mạng sẽ có 1 ma trận , khi đó ta tiếp tục concatenate 2 matrix này và cho đi qua lớp ***Dense size 1 cuối cùng*** để đưa ra kết quả rating.
+Since both models are applied together, each network's output will be a matrix. We then concatenate these two matrices and pass them through the final ***Dense size 1 layer*** to predict the rating.
 
-Cấu trúc mạng tổng quát
+General network structure
 
 ![](https://i.imgur.com/pC9Q7P3.png)
 
-###### Đánh giá mô hình
-* Matrix Factorization đơn giản    
+###### Model Evaluation
+* Simple Matrix Factorization  
     |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
     |-|-|-|-|-|-|
     |train|0.76|0.96|0.71|0.42|0.23|
     |test|0.78|1.01|0.70|0.41|0.22|
-* Matrix Factorization khi áp dụng cả GMF và MLP 
-    
+
+* Matrix Factorization with both GMF and MLP  
+
     * ***Glorot-normal***
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6293|0.6745|0.7955|0.5042|0.2754|
         |test|0.7351|0.8971|0.7297|0.4349|0.2325|
-    
+
     * ***Glorot-uniform***
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6337|0.6793|0.7924|0.5006|0.2698|
         |test|0.7382|0.9017|0.7248|0.4335|0.2296|
-    
+
     * ***He-normal***
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6232|0.6645|0.7996|0.5094|0.2790|
         |test|0.7375|0.9035|0.7278|0.4338|0.2286|
-    
-    * ***He-normal***
+
+    * ***He-uniform***
         |Dataset|MAE|MSE|SIA 1|SIA 0.5|SIA 0.25|
         |-|-|-|-|-|-|
         |train|0.6248|0.6715|0.7998|0.5111|0.2788|
         |test|0.7331|0.9029|0.7336|0.4404|0.2344|
 
+***Comment:*** When using both GMF and MLP, we find that although it is more effective than the typical ***Matrix Factorization*** model, the results are nearly identical to the model using only MLP. This shows that to help the model learn the latent features of users and movies, improving the parameters in the NLP model is crucial, as adding the GMF model does not significantly change the results.
 
 
-***Nhận xét:*** Khi sử dụng cả GMF và NLP ta thấy mặc dù nó hiểu quả so với mô hình ***Matrix Factorization*** thông thường nhưng mà nó gần như xấp xỉ các độ đo so với mô hình khi chi dùng MLP. Điều này chứng minh để mô hình học tốt các đặc trưng ẩn của người dùng và phim thì mô hình nên cải thiện các tham số ở NLP vì có thêm mạng GMF thì kết quả vẫn không thay đổi nhiều
-    
----
+***Note:*** We will adjust the dropout rate and provide model evaluation comments in the next section.
 
-### Phân tích cảm xúc dựa trên review
+##### Calculation of Parameters to Learn
+* To learn the embedding layer, we need to learn 640,000 parameters.
+* To learn the weight matrix between Flatten and Dense(32), we need to learn (76801 * 32) parameters.
+* To learn the weight matrix between Dense(64) and Dense(2), we need to learn (33 * 2) parameters.
+***In total, there are 3,097,698 parameters to learn.***
 
-#### Tiền xử lý nội dung
-
-***Các hàm tiền xử lý***:
-* remove_html(): xóa các thẻ html trong text nếu có
-* lower(): Chuyển thành chữ thường các text
-* replace_contraction(): thay thế các kiểu viết tắt
-    ***VD:***
-    * won't -> will not
-    * can't -> cannot
-    ...
-* remove_punctuation(): xóa các dấu câu (?, ., !)
-* correct_spellings(): chỉnh lại cho đúng chính tả 
-* negation_preprocess(): thay thế các cụm từ có not thành từ phủ định
-     ***VD:***
-    * not able -> unable
-* remove_stopwords(): loại bỏ các từ thừa
-* remove_freqwords(): loại bỏ các từ có tần suất xuất hiện nhiều và các từ không màng ý nghĩa cho lắm như (film, movie, imdb)
-* remove_rarewords(): Loại bỏ các từ hiếm (nhóm chúng tôi chọn những từ xuất hiện 1 lần là hiếm)
-* lemmatize_words(): chuản hóa các từ về dạng nguyên thể
-     ***VD:***
-    * sent -> send
-    * moving -> move
-* remove_urls(): xóa các đường dẫn url khỏi nội dung câu review
-* remove_numbers(): xóa các con số
-
-#### Xây dựng input:
-
-Đầu tiên ta sẽ phải xây dựng 1 từ điện bằng cách tách ra các từ trong  văn bản, nhóm chúng tôi lựa chọn đồ dài của cuốn từ điện là 10000 từ, những từ nào có tần suất xuất hiện cao thì sẽ đứng đầu từ điển.
-
-Tạo 1 từ OOV (Out Of Vocabulary) là từ luôn đứng đầu từ điển, nó tương ứng với những từ không thuộc từ điển của chúng ta.
-
-Sau khi tạo ra từ điển thì ứng với mỗi từ sẽ có 1 con số xếp hạng ứng với nó, từ nào xuất hiện nhiều sẽ ứng với con số càng bé.
-
-***Chú ý:*** Bắt đầu từ 2 vì OOV luôn ứng với số 1.
-
-Vì các câu review luôn có đọ dài khác nhau nên nhóm quyết định chọn 1 độ dài nhất định cho toàn bộ data (Nhóm chọn max_length = 1200). Đối với những câu ngắn sẽ padding 0 vào sau và những câu dài sẽ cắt phần sau đi.(Sở dĩ chọn 1200 vì hầu hết các đoạn review trong dataset hầu hết có độ dài từ 1000 đến 1500)
-
-Khi đó ta đã xây dựng được đầu vào là 1 ma trận có chiều là m * max_length với m là số câu cần train và max_length = 1200
-
-#### Tạo một mô hình mạng neural đơn giản
-
-Xét 1 mẫu sample là 1 đoạn nội dung review của 1 bộ phim nào đó. Sau khi các bước chuẩn bị input trên thì mẫu sample này sẽ là 1 ma trận có kích thước 1200*1. Khi đó giá trị tại mỗi ô chính là 1 con số đại diện cho vị trí 1 từ trong câu mapping với từ điển chúng ta đã xây dựng từ trước. Khi mã hóa one hot con số này , do từ điển có 10000 từ nên ta sẽ thu được đầu ra là 1 ma trận 1200 * 10000 chỉ chưa 0 và 1.
-
-Ta cho đầu vào qua 1 lớp Embedding có kích thước 10000 * 64, ta sẽ có 1 ma trận 1200 * 64.
-
-Khi đó có nghĩa là sau khi đi qua lớp Embedding thì từ 1 mẫu câu (ma trận 1200 * 1) ta đưa ra 1 ma trận (1200 * 64) khi đó từng hàng của ma trận đầu ra chính là vector word embedding cho cái từ ở vị trị tương ứng với mỗi hàng.
-
-Ta tiếp tục duỗi ma trận 300 * 64 bằng lớp Flatten có kích thước 1 * 76800 và ta sẽ thu nhỏ lại bằng 1 lớp fully connected (Lớp Dense) có kích thước 32 * 1 và sau đó thu nhỏ lại lớp Dense cuối cùng (Lớp đầu ra ) chỉ có kích thức 2 * 1, dạng [a, b] với a là xác suất dự đoán đúng lớp 0 và 1 là xác suất dự đoán đúng lớp 1
-
-Có thế trong quá trình cài đặt nhóm chúng tôi sẽ thêm 1 số lớp Dropout vào, tuy nhiên mạng cơ bản của nhóm có cấu trúc như sau:
-
-```
-Input Vector -> Embedding -> Flatten -> Dropout(rate) -> FC(32 units) + ReLU -> FC(2 units) + Softmax
-```
-
-***Chú ý:*** Ta sẽ thay đổi rate của lớp dropout và đưa ra nhận xét trong mục đánh giá mô hình
-
-##### Tính toán số lượng tham số cần phải học
-* Để học được lớp Embedding thì ta phải học 640000 tham số
-* Để học được ma trận trọng số giữa Flatten và Dense(32) ta phải học (76801 * 32 tham số)
-* Để học được ma trận trọng số giữa Dense(64) và Dense(2) ta phải học (33 * 2 tham số)
-***Tổng cổng có 3.097.698 tham số cần phải học***
-
-#### Đánh giá mô hình
+#### Model Evaluation
 
 ---
-    
-* Tập test
 
-| Tham số rate| Độ chính xác lớp 0 | Độ chính xác lớp 1 |Precition| Recall
-| -------- | -------- | -------- | -------- | --------|
-| 0.85    | 0.68     | 0.88     |0.82|0.68
-| 0.81     | 0.73     | 0.84     |0.78|0.73
-| 0.8     | 0.79     | 0.79     |0.75|0.79
-| 0.795    | 0.75     | 0.82     |0.77|0.75
-| 0.79     | 0.77     | 0.81     |0.76|0.77
-| 0.78     | 0.78     | 0.80     |0.76|0.78
-| 0.77     | 0.76     | 0.81     |0.76|0.76
-| 0.75     | 0.72     | 0.84     |0.78|0.72
-| 0.7    | 0.76     | 0.81     |0.76|0.76
-| 0.65     | 0.73     | 0.83     |0.77|0.73
-| 0.6     | 0.70     | 0.83     |0.77|0.70
-    
-***Nhận xét và đánh giá:*** nhóm chúng tôi chọn tham số ***rate=0.8*** của lớp Dropout, sở dĩ ở 1 số rate khác như bảng bên trên thì độ chính xác trên 2 lớp 0 và 1 đang bị ***chênh lệch hơi nhiều*** và củ thể là lớp 1 đang có vể được học tốt hơn. Vì vậy nhóm chúng tôi quyết định chọn rate nào để cho cân bằng độ chính xác trên tập test của mô hình đối với 2 lớp 0 và 1.
-    
-Theo quan sát ở bảng trên thì khi ta thấy độ chính xác 2 lớp khá cân bằng khi rate thuộc các vùng từ ***(0.77-0.8)*** và 1 điểm đặc biệt là khi mà xác suất dự đoán đúng lớp 1 càng cao thì xác suất đoán đúng lớp 0 càng thấp.
-    
-Đặc biệt thì ***drop rate*** ở các vùng giá cao có vẻ là hiệu quả. nhóm chúng tôi có thể giải thích vấn đề này như sau:
+* Test Set
 
-Cũng như là 1 bức ảnh nhận dạng 1 người ở 1 vị trị không quá gần chẳng hạn thì các noise rất nhiều ***(VD: background)***, trong khi đó các đặc trưng thì lại quá ít, đối chiếu với bài toán của nhóm chúng tôi khác hoàn toàn với 1 bài toán phân tích cảm xúc thông thường (Vì nhiều bộ datasets đó độ dài của 1 câu chi tầm khoảng vài chục từ), hầu hết các câu bình luận trong datasets mặc dù đã tiền xử lý những vẫn có độ dài trung bình khoảng ***1000 đến 1500***. Điều này càng làm cho 1 mẫu trong datasets các nhiễu thì cực nhiều (Chưa đánh giá phim ngay vì họ còn nói qua về nội dung phim, thích nhân vật nào, ghét nhân vật nào chẳng hạn), trong khi đó các đặc trưng để làm nổi bật lên sự thích thú lại quá ít trong 1 câu. Vì thế nên các lớp trước nhóm chúng tôi cho nhiều node lên , rồi để drop rate ở mức cao nhằm tăng xác suất chọn được nhiều đặc trưng 
+| Rate | Class 0 Accuracy | Class 1 Accuracy | Precision | Recall |
+| -------- | -------- | -------- | -------- | -------- |
+| 0.85    | 0.68     | 0.88     | 0.82     | 0.68     |
+| 0.81    | 0.73     | 0.84     | 0.78     | 0.73     |
+| 0.8     | 0.79     | 0.79     | 0.75     | 0.79     |
+| 0.795   | 0.75     | 0.82     | 0.77     | 0.75     |
+| 0.79    | 0.77     | 0.81     | 0.76     | 0.77     |
+| 0.78    | 0.78     | 0.80     | 0.76     | 0.78     |
+| 0.77    | 0.76     | 0.81     | 0.76     | 0.76     |
+| 0.75    | 0.72     | 0.84     | 0.78     | 0.72     |
+| 0.7     | 0.76     | 0.81     | 0.76     | 0.76     |
+| 0.65    | 0.73     | 0.83     | 0.77     | 0.73     |
+| 0.6     | 0.70     | 0.83     | 0.77     | 0.70     |
 
-## Hướng dẫn chạy chương trình
-### Thu thập dữ liệu:
-Các bạn chạy file ***[2] Data Crawling.py*** để thu thập dữ liệu.
-    
-***Nhóm suggest bạn đọc nên lấy data ở link dưới đây test vì quá trình thu thập dữ liệu khá lâu và mất thời gian***
+***Comments and Evaluation:*** Our team chose a dropout rate of ***rate = 0.8*** because at other rates, as shown in the table above, there is a noticeable ***imbalance*** in accuracy between class 0 and class 1, with class 1 being learned better. Therefore, we decided to select the rate that balances accuracy across both classes 0 and 1 on the test set.
 
-    Link: 
+From the table above, we can see that accuracy for both classes is quite balanced when the rate is in the range ***(0.77 - 0.8)***. A notable observation is that as the probability of correctly predicting class 1 increases, the probability of correctly predicting class 0 decreases.
 
-Quá trình tích hợp dữ liệu nhóm đã làm trong quá trình crawl
+Interestingly, ***higher dropout rates*** seem to be effective. We can explain this as follows:
 
-### Làm sạch và tiền xử lý dữ liệu
-Chạy lần lượt các file trong thư mục ***[3] Data Cleaning And Data Preprocessing*** 
+Just like recognizing a person in a photo from a distant position, where there is a lot of noise ***(e.g., background)*** and few distinguishing features, our problem differs from standard sentiment analysis (where sentences are typically a few dozen words long). Most comments in our dataset, even after preprocessing, still have an average length of ***1000 to 1500*** words. This increases the noise in each sample (since they often discuss the plot, characters they like, dislike, etc.), while the distinguishing features that highlight sentiment are sparse. Therefore, we use more nodes in earlier layers and set the dropout rate high to increase the chances of identifying more features.
 
-### Khám phá dữ liệu
-Chạy file ***[4] Data Exploration.ipynb***
+## Running the Program Guide
+### Data Collection:
+Run the ***[2] Data Crawling.py*** file to collect data.
 
-### Thử nghiệm các mô hình:
-+ Đối với các mô hình suggesion cơ bản, bạn đọc chạy lần lượt các file từ trên xuống dưới theo thứ tự mà nhóm mình đã đánh dấu nơi tên file trong thư mục ***modeling/Suggestion/***
+***We suggest you download the data from the link below for testing, as data collection can take a long time.***
 
-+ Đối với các mô hình dự đoán rating dùng mạng nơ ron nhân tạo thì các bạn chạy file ***NeuMF_MLP_GMF.ipynb***
+    Link: https://drive.google.com/drive/folders/1yNcBF1FhvYpy7XMB-djFmAfBETraAAJf?usp=sharing
 
-* Đối với bài toán Review Analysis thì các bạn chạy file ***[1] Sentiment Analysis.ipynb***
+The data integration process has been handled during the crawling phase.
 
-***Chú ý:*** Kết quả chạy trong thư mục ***result***
+### Data Cleaning and Preprocessing
+Run the files in the ***[3] Data Cleaning And Data Preprocessing*** folder sequentially.
 
+### Data Exploration
+Run the ***[4] Data Exploration.ipynb*** file.
 
+### Experimenting with Models:
++ For basic suggestion models, run the files in the ***modeling/Suggestion/*** folder in the order indicated by the team.
 
++ For rating prediction models using artificial neural networks, run the ***NeuMF_MLP_GMF.ipynb*** file.
 
+* For the Review Analysis task, run the ***[1] Sentiment Analysis.ipynb*** file.
 
-
-
-
-
-
+***Note:*** The results will be stored in the ***result*** folder.
